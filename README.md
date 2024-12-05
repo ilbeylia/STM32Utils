@@ -10,7 +10,6 @@
 
 [Planned Additions](#planned-additions)  
 [Getting Started](#getting-started)  
-
 - [Requirements](#requirements)  
 - [Installation](#installation)
 - [Usage Examples](#usage-examples)
