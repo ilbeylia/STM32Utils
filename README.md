@@ -7,8 +7,10 @@
 [Features](#features)  
 - [Peripheral Drivers](#peripheral-drivers)  
 - [Advanced Features](#advanced-features)  
+
 [Planned Additions](#planned-additions)  
 [Getting Started](#getting-started)  
+
 - [Requirements](#requirements)  
 - [Installation](#installation)
 - [Usage Examples](#usage-examples)
