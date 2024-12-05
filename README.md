@@ -5,13 +5,13 @@
 **Table of Content**
 ---
 [Features](#features)  
-[--Peripheral Drivers](#peripheral-drivers)  
-[--Advanced Features](#advanced-features)  
+- [Peripheral Drivers](#peripheral-drivers)  
+- [Advanced Features](#advanced-features)  
 [Planned Additions](#planned-additions)  
 [Getting Started](#getting-started)  
-[--Requirements](#requirements)  
-[--Installation](#installation)
-[--Usage Examples](#usage-examples)
+- [Requirements](#requirements)  
+- [Installation](#installation)
+- [Usage Examples](#usage-examples)
 ---
 ## Features
 ### Peripheral Drivers:
@@ -48,13 +48,13 @@ Fully customizable and open for contributions from the community.
 ## Planned Additions
 This library will continue to grow to include:
 
--[ ] **CAN**: Communication for automotive and industrial applications.
--[ ] **USB**: USB device and host functionality.
--[ ] **Ethernet**: Networking capabilities for IoT and connected devices.
--[ ] **SD/MMC**: Storage support for SD cards and multimedia cards.
--[ ] **FreeRTOS Integration**: Task management for real-time systems.
--[ ] **LCD/OLED Support**: Display control for graphical interfaces.
--[ ] **Sensor Libraries**: Accelerometer, gyroscope, and temperature sensor drivers.
+- [ ] **CAN**: Communication for automotive and industrial applications.
+- [ ] **USB**: USB device and host functionality.
+- [ ] **Ethernet**: Networking capabilities for IoT and connected devices.
+- [ ] **SD/MMC**: Storage support for SD cards and multimedia cards.
+- [ ] **FreeRTOS Integration**: Task management for real-time systems.
+- [ ] **LCD/OLED Support**: Display control for graphical interfaces.
+- [ ] **Sensor Libraries**: Accelerometer, gyroscope, and temperature sensor drivers.
 
 ---
 
