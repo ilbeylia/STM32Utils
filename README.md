@@ -2,20 +2,17 @@
 ---
 **STM32Utils** is an open-source library designed to streamline the development process for STM32 microcontrollers. This library provides reusable drivers, utilities, and helper functions for a wide range of peripherals, making it easier to integrate and use hardware features. Whether you're working on GPIO, UART, I2C, ADC, or advanced features like timers and PWM, STM32Utils is here to simplify your development.
 ---
-
 **Table of Content**
-
+---
 [Features](#features)  
-    [-Peripheral Drivers](#peripheral-drivers)  
-    [-Advanced Features](#advanced-features)  
+[--Peripheral Drivers](#peripheral-drivers)  
+[--Advanced Features](#advanced-features)  
 [Planned Additions](#planned-additions)  
 [Getting Started](#getting-started)  
-    [-Requirements](#requirements)  
-    [-Installation](#installation)
-    [-Usage Examples](#usage-examples)
-
-
-
+[--Requirements](#requirements)  
+[--Installation](#installation)
+[--Usage Examples](#usage-examples)
+---
 ## Features
 ### Peripheral Drivers:
 Simplified and reusable drivers for common peripherals, including:
@@ -51,13 +48,13 @@ Fully customizable and open for contributions from the community.
 ## Planned Additions
 This library will continue to grow to include:
 
--[] **CAN**: Communication for automotive and industrial applications.
--[] **USB**: USB device and host functionality.
--[] **Ethernet**: Networking capabilities for IoT and connected devices.
--[] **SD/MMC**: Storage support for SD cards and multimedia cards.
--[] **FreeRTOS Integration**: Task management for real-time systems.
--[] **LCD/OLED Support**: Display control for graphical interfaces.
--[] **Sensor Libraries**: Accelerometer, gyroscope, and temperature sensor drivers.
+-[ ] **CAN**: Communication for automotive and industrial applications.
+-[ ] **USB**: USB device and host functionality.
+-[ ] **Ethernet**: Networking capabilities for IoT and connected devices.
+-[ ] **SD/MMC**: Storage support for SD cards and multimedia cards.
+-[ ] **FreeRTOS Integration**: Task management for real-time systems.
+-[ ] **LCD/OLED Support**: Display control for graphical interfaces.
+-[ ] **Sensor Libraries**: Accelerometer, gyroscope, and temperature sensor drivers.
 
 ---
 
