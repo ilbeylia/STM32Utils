@@ -5,14 +5,14 @@
 
 **Table of Content**
 
--[Features](#features)  
-    -[Peripheral Drivers](#peripheral-drivers)  
-    -[Advanced Features](#advanced-features)  
--[Planned Additions](#planned-additions)  
--[Getting Started](#getting-started)  
-    -[Requirements](#requirements)  
-    -[Installation](#installation)
-    -[Usage Examples](#usage-examples)
+[Features](#features)  
+    [-Peripheral Drivers](#peripheral-drivers)  
+    [-Advanced Features](#advanced-features)  
+[Planned Additions](#planned-additions)  
+[Getting Started](#getting-started)  
+    [-Requirements](#requirements)  
+    [-Installation](#installation)
+    [-Usage Examples](#usage-examples)
 
 
 
@@ -51,13 +51,13 @@ Fully customizable and open for contributions from the community.
 ## Planned Additions
 This library will continue to grow to include:
 
-**CAN**: Communication for automotive and industrial applications.
-**USB**: USB device and host functionality.
-**Ethernet**: Networking capabilities for IoT and connected devices.
-**SD/MMC**: Storage support for SD cards and multimedia cards.
-**FreeRTOS Integration**: Task management for real-time systems.
-**LCD/OLED Support**: Display control for graphical interfaces.
-**Sensor Libraries**: Accelerometer, gyroscope, and temperature sensor drivers.
+-[] **CAN**: Communication for automotive and industrial applications.
+-[] **USB**: USB device and host functionality.
+-[] **Ethernet**: Networking capabilities for IoT and connected devices.
+-[] **SD/MMC**: Storage support for SD cards and multimedia cards.
+-[] **FreeRTOS Integration**: Task management for real-time systems.
+-[] **LCD/OLED Support**: Display control for graphical interfaces.
+-[] **Sensor Libraries**: Accelerometer, gyroscope, and temperature sensor drivers.
 
 ---
 
@@ -70,9 +70,9 @@ STM32 development board (e.g., Nucleo, Discovery, or custom boards).
 
 ## Installation
 1. Clone the repository:
-    '''bash
-    git clone https://github.com/ilbeylia/STM32Utils.git
-    '''
+```bash
+git clone https://github.com/ilbeylia/STM32Utils.git
+```
 
 ## Usage Examples
  ...
