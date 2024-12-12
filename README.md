@@ -98,10 +98,10 @@ while (1)
 
 | **Mod**       | **Process**                   |
 |---------------|-------------------------------|
-| `LED_Mode1`   | LED1 ON                  |
-| `LED_Mode2`   | LED1, LED2 ON                  |
-| `LED_Mode3`   | LED1, LED2, LED3 ON                  |
-| `LED_Mode4`   | LED1, LED2, LED3, LED4 ON                  |
+| `LED_Mode1`   | LED1 ON                       |
+| `LED_Mode2`   | LED1, LED2 ON                 |
+| `LED_Mode3`   | LED1, LED2, LED3 ON           |
+| `LED_Mode4`   | LED1, LED2, LED3, LED4 ON     |
 
 ### ADC_lib
 ```C
@@ -158,4 +158,47 @@ while (1)
 	HAL_Delay(1000);
 }
 ```
+
+### FLASH_PROCESS_lib
+```C
+/* USER CODE BEGIN Includes */
+    #include "FLASH_PROCESS_lib.h"
+/* USER CODE END Includes */
+
+/* USER CODE BEGIN PV */
+    Status_led_s statusLED;
+
+    uint32_t read_data;
+    int test=0;
+/* USER CODE END PV */
+
+/* USER CODE BEGIN Init */
+  status_led_init(&statusLED, GPIOD, GPIO_PIN_12, GPIOD, GPIO_PIN_13, GPIOD, GPIO_PIN_14, GPIOD, GPIO_PIN_15);
+
+  /* USER CODE END Init */
+
+/* USER CODE BEGIN 2 */
+  
+  read_data = Flash_RD(0x080E0000);
+
+  if (read_data<=10){
+	  read_data +=1;
+//	  Flash_Erase(0x0080E0000, 4);
+	  test=1;
+	  Flash_WR(0x080E0000, read_data);
+  }
+  else {
+	  Flash_WR(0x080E0000, 0x00);
+  }
+
+  /* USER CODE END 2 */
+
+while (1)
+{
+    if(read_data < 5){
+    status_led_process(&statusLED, LED_Mode1);   	
+    }
+}
+```
+
 
