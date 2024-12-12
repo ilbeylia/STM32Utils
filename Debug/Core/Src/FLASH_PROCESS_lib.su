@@ -1,0 +1,3 @@
+../Core/Src/FLASH_PROCESS_lib.c:10:6:Flash_WR	24	static
+../Core/Src/FLASH_PROCESS_lib.c:17:10:Flash_RD	16	static
+../Core/Src/FLASH_PROCESS_lib.c:21:6:Flash_Erase	24	static

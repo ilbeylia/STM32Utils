@@ -67,6 +67,10 @@ void status_led_process(Status_led_s* status_led, Status_led_mode_e Mode){
 			break;
 
 		default:
+			HAL_GPIO_WritePin(status_led->Led4_GPIOx, status_led->Led4_GPIO_pin, 1);
+			HAL_Delay(200);
+			HAL_GPIO_WritePin(status_led->Led4_GPIOx, status_led->Led4_GPIO_pin, 0);
+			HAL_Delay(200);
 			break;
 	}
 }

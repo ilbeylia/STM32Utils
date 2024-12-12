@@ -26,6 +26,7 @@
 #include "LIS302DL_lib.h"
 #include "STEP_MOTOR_lib.h"
 #include "BASIC_GPIO_lib.h"
+#include "FLASH_PROCESS_lib.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,6 +63,10 @@ float pitch, roll;
 
 step_config step1;
 Status_led_s statusLED;
+
+
+uint32_t read_data;
+int test=0;
 
 
 /* USER CODE END PV */
@@ -118,13 +123,16 @@ int main(void)
 
   /* USER CODE BEGIN Init */
   LIS302DL_init(Normal_Mode);
+
   status_led_init(&statusLED, GPIOD, GPIO_PIN_12, GPIOD, GPIO_PIN_13, GPIOD, GPIO_PIN_14, GPIOD, GPIO_PIN_15);
+
   step_init(&step1, &htim1, TIM_CHANNEL_1, dir_GPIO_Port, dir_Pin);
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
+
 
   /* USER CODE BEGIN SysInit */
 
@@ -141,6 +149,18 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
 
+  read_data = Flash_RD(0x080E0000);
+
+  if (read_data<=10){
+	  read_data +=1;
+//	  Flash_Erase(0x0080E0000, 4);
+	  test=1;
+	  Flash_WR(0x080E0000, read_data);
+  }
+  else {
+	  Flash_WR(0x080E0000, 0x00);
+  }
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -151,7 +171,8 @@ int main(void)
     MX_USB_HOST_Process();
 
     /* USER CODE BEGIN 3 */
-    //Basic
+
+
 //    data = ADC_read(&hadc1);
 
 //    LIS302DL_ReadXYZ(&x, &y, &z);
@@ -161,11 +182,13 @@ int main(void)
 //	HAL_Delay(1000);
 //	step(&step1, 200, Step_GERI);
 //	HAL_Delay(1000);
+    if(read_data < 5){
+		status_led_process(&statusLED, LED_Mode1);
+    }
 
-    status_led_process(&statusLED, LED_Mode4);
-
-    HAL_Delay(10);
-    //DMA
+//
+//    HAL_Delay(10);
+//DMA
 
   }
   /* USER CODE END 3 */

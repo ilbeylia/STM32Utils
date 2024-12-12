@@ -7,6 +7,7 @@
 C_SRCS += \
 ../Core/Src/ADC_Lib.c \
 ../Core/Src/BASIC_GPIO_lib.c \
+../Core/Src/FLASH_PROCESS_lib.c \
 ../Core/Src/LIS302DL_lib.c \
 ../Core/Src/STEP_MOTOR_lib.c \
 ../Core/Src/main.c \
@@ -19,6 +20,7 @@ C_SRCS += \
 OBJS += \
 ./Core/Src/ADC_Lib.o \
 ./Core/Src/BASIC_GPIO_lib.o \
+./Core/Src/FLASH_PROCESS_lib.o \
 ./Core/Src/LIS302DL_lib.o \
 ./Core/Src/STEP_MOTOR_lib.o \
 ./Core/Src/main.o \
@@ -31,6 +33,7 @@ OBJS += \
 C_DEPS += \
 ./Core/Src/ADC_Lib.d \
 ./Core/Src/BASIC_GPIO_lib.d \
+./Core/Src/FLASH_PROCESS_lib.d \
 ./Core/Src/LIS302DL_lib.d \
 ./Core/Src/STEP_MOTOR_lib.d \
 ./Core/Src/main.d \
@@ -48,7 +51,7 @@ Core/Src/%.o Core/Src/%.su Core/Src/%.cyclo: ../Core/Src/%.c Core/Src/subdir.mk
 clean: clean-Core-2f-Src
 
 clean-Core-2f-Src:
-	-$(RM) ./Core/Src/ADC_Lib.cyclo ./Core/Src/ADC_Lib.d ./Core/Src/ADC_Lib.o ./Core/Src/ADC_Lib.su ./Core/Src/BASIC_GPIO_lib.cyclo ./Core/Src/BASIC_GPIO_lib.d ./Core/Src/BASIC_GPIO_lib.o ./Core/Src/BASIC_GPIO_lib.su ./Core/Src/LIS302DL_lib.cyclo ./Core/Src/LIS302DL_lib.d ./Core/Src/LIS302DL_lib.o ./Core/Src/LIS302DL_lib.su ./Core/Src/STEP_MOTOR_lib.cyclo ./Core/Src/STEP_MOTOR_lib.d ./Core/Src/STEP_MOTOR_lib.o ./Core/Src/STEP_MOTOR_lib.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32f4xx_hal_msp.cyclo ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_hal_msp.su ./Core/Src/stm32f4xx_it.cyclo ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/stm32f4xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f4xx.cyclo ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/system_stm32f4xx.su
+	-$(RM) ./Core/Src/ADC_Lib.cyclo ./Core/Src/ADC_Lib.d ./Core/Src/ADC_Lib.o ./Core/Src/ADC_Lib.su ./Core/Src/BASIC_GPIO_lib.cyclo ./Core/Src/BASIC_GPIO_lib.d ./Core/Src/BASIC_GPIO_lib.o ./Core/Src/BASIC_GPIO_lib.su ./Core/Src/FLASH_PROCESS_lib.cyclo ./Core/Src/FLASH_PROCESS_lib.d ./Core/Src/FLASH_PROCESS_lib.o ./Core/Src/FLASH_PROCESS_lib.su ./Core/Src/LIS302DL_lib.cyclo ./Core/Src/LIS302DL_lib.d ./Core/Src/LIS302DL_lib.o ./Core/Src/LIS302DL_lib.su ./Core/Src/STEP_MOTOR_lib.cyclo ./Core/Src/STEP_MOTOR_lib.d ./Core/Src/STEP_MOTOR_lib.o ./Core/Src/STEP_MOTOR_lib.su ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32f4xx_hal_msp.cyclo ./Core/Src/stm32f4xx_hal_msp.d ./Core/Src/stm32f4xx_hal_msp.o ./Core/Src/stm32f4xx_hal_msp.su ./Core/Src/stm32f4xx_it.cyclo ./Core/Src/stm32f4xx_it.d ./Core/Src/stm32f4xx_it.o ./Core/Src/stm32f4xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f4xx.cyclo ./Core/Src/system_stm32f4xx.d ./Core/Src/system_stm32f4xx.o ./Core/Src/system_stm32f4xx.su
 
 .PHONY: clean-Core-2f-Src
 

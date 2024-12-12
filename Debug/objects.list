@@ -1,5 +1,6 @@
 "./Core/Src/ADC_Lib.o"
 "./Core/Src/BASIC_GPIO_lib.o"
+"./Core/Src/FLASH_PROCESS_lib.o"
 "./Core/Src/LIS302DL_lib.o"
 "./Core/Src/STEP_MOTOR_lib.o"
 "./Core/Src/main.o"
