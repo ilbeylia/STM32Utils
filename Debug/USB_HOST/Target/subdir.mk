@@ -5,16 +5,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../USB_HOST/Target/usbh_conf.c \
-../USB_HOST/Target/usbh_platform.c 
+../USB_HOST/Target/usbh_conf.c 
 
 OBJS += \
-./USB_HOST/Target/usbh_conf.o \
-./USB_HOST/Target/usbh_platform.o 
+./USB_HOST/Target/usbh_conf.o 
 
 C_DEPS += \
-./USB_HOST/Target/usbh_conf.d \
-./USB_HOST/Target/usbh_platform.d 
+./USB_HOST/Target/usbh_conf.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -24,7 +21,7 @@ USB_HOST/Target/%.o USB_HOST/Target/%.su USB_HOST/Target/%.cyclo: ../USB_HOST/Ta
 clean: clean-USB_HOST-2f-Target
 
 clean-USB_HOST-2f-Target:
-	-$(RM) ./USB_HOST/Target/usbh_conf.cyclo ./USB_HOST/Target/usbh_conf.d ./USB_HOST/Target/usbh_conf.o ./USB_HOST/Target/usbh_conf.su ./USB_HOST/Target/usbh_platform.cyclo ./USB_HOST/Target/usbh_platform.d ./USB_HOST/Target/usbh_platform.o ./USB_HOST/Target/usbh_platform.su
+	-$(RM) ./USB_HOST/Target/usbh_conf.cyclo ./USB_HOST/Target/usbh_conf.d ./USB_HOST/Target/usbh_conf.o ./USB_HOST/Target/usbh_conf.su
 
 .PHONY: clean-USB_HOST-2f-Target
 

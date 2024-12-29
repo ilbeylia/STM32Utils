@@ -168,7 +168,7 @@ while (1)
 /* USER CODE BEGIN PV */
     Status_led_s statusLED;
 
-    uint32_t read_data;
+    uint32_t flash_rd;
     int test=0;
 /* USER CODE END PV */
 
@@ -179,13 +179,13 @@ while (1)
 
 /* USER CODE BEGIN 2 */
   
-  read_data = Flash_RD(0x080E0000);
+  flash_rd = Flash_RD(0x080E0000);
 
-  if (read_data<=10){
-	  read_data +=1;
+  if (flash_rd<=10){
+	  flash_rd +=1;
 //	  Flash_Erase(0x0080E0000, 4);
 	  test=1;
-	  Flash_WR(0x080E0000, read_data);
+	  Flash_WR(0x080E0000, flash_rd);
   }
   else {
 	  Flash_WR(0x080E0000, 0x00);
@@ -195,7 +195,7 @@ while (1)
 
 while (1)
 {
-    if(read_data < 5){
+    if(flash_rd < 5){
     status_led_process(&statusLED, LED_Mode1);   	
     }
 }

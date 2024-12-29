@@ -16,18 +16,20 @@
 
 // status led config >> for four leds
 typedef enum{
-	LED_Mode1,
-	LED_Mode2,
-	LED_Mode3,
-	LED_Mode4
+	LED_STOP,
+	LED_START,
+	LED_STAY,
+	LED_GO,
+	LED_OKAY
 }Status_led_mode_e;
 
 typedef struct{
 	GPIO_TypeDef * Led1_GPIOx;
 	uint16_t Led1_GPIO_pin;
-	GPIO_TypeDef * Led2_GPIOx;
 
+	GPIO_TypeDef * Led2_GPIOx;
 	uint16_t Led2_GPIO_pin;
+
 
 	GPIO_TypeDef * Led3_GPIOx;
 	uint16_t Led3_GPIO_pin;
@@ -38,7 +40,7 @@ typedef struct{
 }Status_led_s;
 
 
-void status_led_init(Status_led_s *status_led, GPIO_TypeDef * Led1_GPIOx, uint16_t Led1_GPIO_pin,
+void status_led_init(Status_led_s *status_led, GPIO_TypeDef * MYLed1_GPIOx, uint16_t Led1_GPIO_pin,
 		GPIO_TypeDef * Led2_GPIOx, uint16_t Led2_GPIO_pin,
 		GPIO_TypeDef * Led3_GPIOx, uint16_t Led3_GPIO_pin,
 		GPIO_TypeDef * Led4_GPIOx, uint16_t Led4_GPIO_pin);

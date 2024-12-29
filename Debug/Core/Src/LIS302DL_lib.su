@@ -1,5 +1,0 @@
-../Core/Src/LIS302DL_lib.c:16:6:LIS302DL_init	16	static
-../Core/Src/LIS302DL_lib.c:20:6:LIS302DL_WriteReg	24	static
-../Core/Src/LIS302DL_lib.c:27:9:LIS302DL_ReadReg	24	static
-../Core/Src/LIS302DL_lib.c:39:6:LIS302DL_ReadXYZ	24	static
-../Core/Src/LIS302DL_lib.c:45:6:calculateAngles	24	static

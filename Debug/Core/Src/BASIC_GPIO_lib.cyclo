@@ -1,2 +1,2 @@
 ../Core/Src/BASIC_GPIO_lib.c:11:6:status_led_init	1
-../Core/Src/BASIC_GPIO_lib.c:30:6:status_led_process	5
+../Core/Src/BASIC_GPIO_lib.c:35:6:status_led_process	6

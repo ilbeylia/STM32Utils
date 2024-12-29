@@ -27,50 +27,54 @@ void status_led_init(Status_led_s *status_led, GPIO_TypeDef * Led1_GPIOx, uint16
 
 }
 
+
+// led 1 -- kırmızı
+// led 2 -- yeşil
+// led 3 -- 2. yeşil
+// led 4 -- sarı
 void status_led_process(Status_led_s* status_led, Status_led_mode_e Mode){
 	switch (Mode) {
-		case LED_Mode1 :
+		case LED_STOP :
 			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 1);
 			HAL_Delay(200);
 			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 0);
 			HAL_Delay(200);
 			break;
-		case LED_Mode2 :
-			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 1);
+		case LED_START :
 			HAL_GPIO_WritePin(status_led->Led2_GPIOx, status_led->Led2_GPIO_pin, 1);
 			HAL_Delay(200);
-			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 0);
 			HAL_GPIO_WritePin(status_led->Led2_GPIOx, status_led->Led2_GPIO_pin, 0);
 			HAL_Delay(200);
 			break;
-		case LED_Mode3 :
-			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 1);
-			HAL_GPIO_WritePin(status_led->Led2_GPIOx, status_led->Led2_GPIO_pin, 1);
+		case LED_OKAY :
 			HAL_GPIO_WritePin(status_led->Led3_GPIOx, status_led->Led3_GPIO_pin, 1);
 			HAL_Delay(200);
-			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 0);
-			HAL_GPIO_WritePin(status_led->Led2_GPIOx, status_led->Led2_GPIO_pin, 0);
 			HAL_GPIO_WritePin(status_led->Led3_GPIOx, status_led->Led3_GPIO_pin, 0);
 			HAL_Delay(200);
 			break;
-		case LED_Mode4 :
+		case LED_GO :
+			HAL_GPIO_WritePin(status_led->Led2_GPIOx, status_led->Led2_GPIO_pin, 0);
 			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 1);
-			HAL_GPIO_WritePin(status_led->Led2_GPIOx, status_led->Led2_GPIO_pin, 1);
-			HAL_GPIO_WritePin(status_led->Led3_GPIOx, status_led->Led3_GPIO_pin, 1);
+			HAL_Delay(200);
+			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 0);
 			HAL_GPIO_WritePin(status_led->Led4_GPIOx, status_led->Led4_GPIO_pin, 1);
 			HAL_Delay(200);
-			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 0);
-			HAL_GPIO_WritePin(status_led->Led2_GPIOx, status_led->Led2_GPIO_pin, 0);
-			HAL_GPIO_WritePin(status_led->Led3_GPIOx, status_led->Led3_GPIO_pin, 0);
+			HAL_GPIO_WritePin(status_led->Led4_GPIOx, status_led->Led4_GPIO_pin, 0);
+			HAL_GPIO_WritePin(status_led->Led2_GPIOx, status_led->Led2_GPIO_pin, 1);
+			HAL_Delay(200);
+			break;
+		case LED_STAY :
+			HAL_GPIO_WritePin(status_led->Led4_GPIOx, status_led->Led4_GPIO_pin, 1);
+			HAL_Delay(200);
 			HAL_GPIO_WritePin(status_led->Led4_GPIOx, status_led->Led4_GPIO_pin, 0);
 			HAL_Delay(200);
 			break;
 
 		default:
-			HAL_GPIO_WritePin(status_led->Led4_GPIOx, status_led->Led4_GPIO_pin, 1);
-			HAL_Delay(200);
-			HAL_GPIO_WritePin(status_led->Led4_GPIOx, status_led->Led4_GPIO_pin, 0);
-			HAL_Delay(200);
+			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 1);
+			HAL_Delay(100);
+			HAL_GPIO_WritePin(status_led->Led1_GPIOx, status_led->Led1_GPIO_pin, 0);
+			HAL_Delay(100);
 			break;
 	}
 }
