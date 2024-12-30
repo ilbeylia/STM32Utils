@@ -1,0 +1,9 @@
+../Core/Src/lcd_ı2c.c:15:13:LCD_Write	1
+../Core/Src/lcd_ı2c.c:21:13:LCD_WriteCommand	1
+../Core/Src/lcd_ı2c.c:30:13:LCD_WriteData	1
+../Core/Src/lcd_ı2c.c:39:6:LCD_Init	1
+../Core/Src/lcd_ı2c.c:65:6:LCD_SetCursor	2
+../Core/Src/lcd_ı2c.c:71:6:LCD_Clear	1
+../Core/Src/lcd_ı2c.c:77:6:LCD_SendString	2
+../Core/Src/lcd_ı2c.c:84:6:LCD_SendChar	1
+../Core/Src/lcd_ı2c.c:89:6:LCD_Test	1
