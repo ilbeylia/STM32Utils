@@ -219,6 +219,7 @@ int main(void)
 
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, ADC_BUFFER_SIZE);
   status_led_process(&statusLED, LED_GO);
+  HAL_Delay(5000);
 
   read_step_value = Flash_RD(0x080E0000);
 
