@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "fatfs.h"
 #include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -28,6 +29,7 @@
 #include "FLASH_PROCESS_lib.h"
 #include "SERVO_lib.h"
 #include "lcd_i2c.h"
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,7 +58,11 @@ typedef enum {
 ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 
+CRC_HandleTypeDef hcrc;
+
 I2C_HandleTypeDef hi2c1;
+
+SPI_HandleTypeDef hspi1;
 
 TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
@@ -85,8 +91,18 @@ uint16_t adc_buffer[ADC_BUFFER_SIZE];
 int read_step_value;  // adc den gelen degeri yapilandirip step bilgisi olarak veriyorum
 uint8_t send_data[50];
 
+//CRC
+uint32_t crc_value;
+uint32_t data_buffer[1];
+
 // enum
 ParameterAction_e currentAction;
+
+//SD CARD
+FATFS fs;
+FIL fil;
+FRESULT res;
+UINT bw;
 
 /* USER CODE END PV */
 
@@ -98,6 +114,8 @@ static void MX_ADC1_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_I2C1_Init(void);
+static void MX_CRC_Init(void);
+static void MX_SPI1_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -167,7 +185,42 @@ void process(int currentAction, int value){
 	}
 }
 
+void SD_Init(void) {
+    res = f_mount(&fs, "", 1);
+    if (res == FR_OK) {
+        printf("SD Card mounted successfully.\n");
+    } else {
+        printf("Failed to mount SD Card.\n");
+    }
+}
 
+void SD_WriteData(const char *data){
+	res = f_open(&fil, "data.txt", FA_OPEN_APPEND | FA_WRITE);
+	if (res == FR_OK) {
+		res = f_write(&fil, data, strlen(data), &bw);  // Use strlen(data) for proper size
+		if (res == FR_OK) {
+			printf("Data written successfully.\n");
+			//burada birsey gosteririm belki ledi
+		} else {
+			printf("Failed to write data. Error: %d\n", res);
+			//burada birsey gosteririm belki ledi
+		}
+		f_close(&fil);
+	} else {
+		//buraya birsey eklerim
+		//burada birsey gosteririm belki ledi
+		printf("Data written error.\n");
+	}
+}
+
+
+void SD_Select(void) {
+    HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+}
+
+void SD_Deselect(void) {
+    HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_SET);
+}
 
 /* USER CODE END 0 */
 
@@ -188,7 +241,6 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
   /* USER CODE BEGIN Init */
 //Led
   status_led_init(&statusLED, GPIOD, GPIO_PIN_13, GPIOD, GPIO_PIN_14, GPIOD, GPIO_PIN_15, GPIOD, GPIO_PIN_12);
@@ -198,6 +250,11 @@ int main(void)
   init_servo(&servo1, GPIOA, GPIO_PIN_15, &htim2, TIM_CHANNEL_1);
 //Lcd
 //  LCD_Init(&hi2c1);
+
+  //SD card
+  MX_SPI1_Init();
+  MX_FATFS_Init();
+  SD_Init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -215,6 +272,9 @@ int main(void)
   MX_USB_DEVICE_Init();
   MX_TIM2_Init();
   MX_I2C1_Init();
+  MX_CRC_Init();
+  MX_SPI1_Init();
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adc_buffer, ADC_BUFFER_SIZE);
@@ -222,6 +282,9 @@ int main(void)
   HAL_Delay(5000);
 
   read_step_value = Flash_RD(0x080E0000);
+
+  SD_Select();
+  SD_WriteData("test ABC \n");
 
 //  LCD_Test();
 
@@ -234,27 +297,37 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	if(currentAction == 0){
-		flag_check();
-		process(currentAction, read_step_value);
-		servo_angle(&servo1, read_step_value);
-		HAL_Delay(1000);
-	}
+//	if(currentAction == 0){
+//		flag_check();
+//		process(currentAction, read_step_value);
+//		servo_angle(&servo1, read_step_value);
+//		HAL_Delay(1000);
+//	}
+//
+//	else{
+//		read_step_value = map(adc_buffer[0], 0, 4095, 0, 180);
+//		snprintf((char*)send_data, sizeof(send_data), "%d\n", read_step_value);
+//		while (CDC_Transmit_FS((uint8_t*)send_data, strlen((char*)send_data)) == USBD_BUSY) {
+//			HAL_Delay(1);
+//		}
+//
+//		flag_check();
+//		process(currentAction, read_step_value);
+//	}
+//	angle = map(adc_buffer[0],0,4095,0,180);
+//	flash_ref = angle;
+//	servo_angle(&servo1, angle);
+//	HAL_Delay(1000);
 
-	else{
-		read_step_value = map(adc_buffer[0], 0, 4095, 0, 180);
-		snprintf((char*)send_data, sizeof(send_data), "%d\n", read_step_value);
-		while (CDC_Transmit_FS((uint8_t*)send_data, strlen((char*)send_data)) == USBD_BUSY) {
-			HAL_Delay(1);
-		}
+	  read_step_value = map(adc_buffer[0], 0, 4095, 0, 180);
+	  data_buffer[0] = (uint32_t)read_step_value;
+	  crc_value = HAL_CRC_Calculate(&hcrc, data_buffer, 1);
+	  snprintf((char*)send_data, sizeof(send_data), "%d,%lu\n", read_step_value, crc_value);
+	  while (CDC_Transmit_FS((uint8_t*)send_data, strlen((char*)send_data)) == USBD_BUSY) {
+	      HAL_Delay(1);
+	  }
 
-		flag_check();
-		process(currentAction, read_step_value);
-	}
-	angle = map(adc_buffer[0],0,4095,0,180);
-	flash_ref = angle;
-	servo_angle(&servo1, angle);
-	HAL_Delay(1000);
+
 
 
 
@@ -360,6 +433,32 @@ static void MX_ADC1_Init(void)
 }
 
 /**
+  * @brief CRC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_CRC_Init(void)
+{
+
+  /* USER CODE BEGIN CRC_Init 0 */
+
+  /* USER CODE END CRC_Init 0 */
+
+  /* USER CODE BEGIN CRC_Init 1 */
+
+  /* USER CODE END CRC_Init 1 */
+  hcrc.Instance = CRC;
+  if (HAL_CRC_Init(&hcrc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN CRC_Init 2 */
+
+  /* USER CODE END CRC_Init 2 */
+
+}
+
+/**
   * @brief I2C1 Initialization Function
   * @param None
   * @retval None
@@ -390,6 +489,44 @@ static void MX_I2C1_Init(void)
   /* USER CODE BEGIN I2C1_Init 2 */
 
   /* USER CODE END I2C1_Init 2 */
+
+}
+
+/**
+  * @brief SPI1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SPI1_Init(void)
+{
+
+  /* USER CODE BEGIN SPI1_Init 0 */
+
+  /* USER CODE END SPI1_Init 0 */
+
+  /* USER CODE BEGIN SPI1_Init 1 */
+
+  /* USER CODE END SPI1_Init 1 */
+  /* SPI1 parameter configuration*/
+  hspi1.Instance = SPI1;
+  hspi1.Init.Mode = SPI_MODE_MASTER;
+  hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi1.Init.NSS = SPI_NSS_SOFT;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
+  hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi1.Init.CRCPolynomial = 10;
+  if (HAL_SPI_Init(&hspi1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN SPI1_Init 2 */
+
+  /* USER CODE END SPI1_Init 2 */
 
 }
 
@@ -559,8 +696,8 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOE, lcd_d5_Pin|lcd_d6_Pin|lcd_d7_Pin|GPIO_PIN_10
@@ -570,11 +707,11 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4|GPIO_PIN_5, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, dir_Pin|LD4_Pin|LD3_Pin|LD5_Pin
-                          |LD6_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, SD_CS_Pin|lcd_rs_Pin|lcd_e_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, lcd_rs_Pin|lcd_e_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, dir_Pin|LD4_Pin|LD3_Pin|LD5_Pin
+                          |LD6_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : lcd_d5_Pin lcd_d6_Pin lcd_d7_Pin PE10
                            lcd_d4_Pin */
@@ -598,6 +735,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : SD_CS_Pin lcd_rs_Pin lcd_e_Pin */
+  GPIO_InitStruct.Pin = SD_CS_Pin|lcd_rs_Pin|lcd_e_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
   /*Configure GPIO pins : dir_Pin LD4_Pin LD3_Pin LD5_Pin
                            LD6_Pin */
   GPIO_InitStruct.Pin = dir_Pin|LD4_Pin|LD3_Pin|LD5_Pin
@@ -612,13 +756,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : lcd_rs_Pin lcd_e_Pin */
-  GPIO_InitStruct.Pin = lcd_rs_Pin|lcd_e_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
